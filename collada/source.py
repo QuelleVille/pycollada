@@ -180,7 +180,7 @@ class FloatSource(Source):
         sourceid = node.get('id')
         arraynode = node.find(tag('float_array'))
         if arraynode is None: raise DaeIncompleteError('No float_array in source node')
-        if arraynode.text is None:
+        if arraynode.text is None or arraynode.get('count') == '0':
             data = numpy.array([], dtype=numpy.float32)
         else:
             try: data = numpy.fromstring(arraynode.text, dtype=numpy.float32, sep=' ')
