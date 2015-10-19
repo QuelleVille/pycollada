@@ -80,19 +80,23 @@ def checkSource( source, components, maxindex):
       The maximum index that refers to this source
 
     """
-    if len(source.data) <= maxindex:
-        raise DaeMalformedError(
-            "Indexes (maxindex=%d) for source '%s' (len=%d) go beyond the limits of the source"
-            % (maxindex, source.id, len(source.data)) )
 
-    #some files will write sources with no named parameters
-    #by spec, these params should just be skipped, but we need to
-    #adapt to the failed output of others...
-    if len(source.components) == len(components):
-        source.components = components
+    try:
+        if len(source.data) <= maxindex:
+            raise DaeMalformedError(
+                "Indexes (maxindex=%d) for source '%s' (len=%d) go beyond the limits of the source"
+                % (maxindex, source.id, len(source.data)) )
 
-    if source.components != components:
-        raise DaeMalformedError('Wrong format in source %s'%source.id)
+        #some files will write sources with no named parameters
+        #by spec, these params should just be skipped, but we need to
+        #adapt to the failed output of others...
+        if len(source.components) == len(components):
+            source.components = components
+
+        if source.components != components:
+            raise DaeMalformedError('Wrong format in source %s'%source.id)
+    except DaeMalformedError, e:
+        print e
     return source
 
 def normalize_v3(arr):
