@@ -96,7 +96,7 @@ def checkSource( source, components, maxindex):
         if source.components != components:
             raise DaeMalformedError('Wrong format in source %s'%source.id)
     except DaeMalformedError, e:
-        print e
+        print e.msg.encode('utf-8')
     return source
 
 def normalize_v3(arr):
