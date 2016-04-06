@@ -656,17 +656,18 @@ class Effect(DaeObject):
         children = node.getchildren()
         if not children: raise DaeIncompleteError('Incorrect effect shading parameter '+node.tag)
         vnode = children[0]
+        node_id = node.get('id', '')
         if vnode.tag == tag('color'):
             try:
                 value = tuple([ float(v) for v in vnode.text.split() ])
             except ValueError as ex:
-                raise DaeMalformedError('Corrupted color definition in effect '+id)
+                raise DaeMalformedError('Corrupted color definition in effect '+ node_id)
             except IndexError as ex:
-                raise DaeMalformedError('Corrupted color definition in effect '+id)
+                raise DaeMalformedError('Corrupted color definition in effect '+ node_id)
         elif vnode.tag == tag('float'):
             try: value = float(vnode.text)
             except ValueError as ex:
-                raise DaeMalformedError('Corrupted float definition in effect '+id)
+                raise DaeMalformedError('Corrupted float definition in effect '+ node_id)
         elif vnode.tag == tag('texture'):
             value = Map.load(collada, localscope, vnode)
         elif vnode.tag == tag('param'):
